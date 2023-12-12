@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Quotable</string>
+    <string name="quote1">Hell, there are no rules here; we\'re trying to accomplish something.</string>
+    <string name="quote2">As a cure for worrying, work is better than whisky.</string>
+    <string name="quote3">Faith, as well intentioned as it may be, must be built on facts, not fiction--faith in fiction is a damnable false hope.</string>
+    <string name="author1">Thomas Edison</string>
+    <string name="author2">Thomas Edison</string>
+    <string name="author3">Charles Dickens</string>
+
+</resources>
