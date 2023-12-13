@@ -8,4 +8,5 @@ class QuotableRepository(private val apiService: ApiService) {
     suspend fun getQuotes(): GetQuotesResponse {
         return apiService.getQuotes()
     }
+
 }

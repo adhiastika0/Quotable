@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
@@ -20,12 +21,16 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -36,6 +41,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.d121211029.quotable.data.model.quote.Quote
 import com.d121211029.quotable.ui.activity.detail.DetailActivity
 import com.d121211029.quotable.ui.theme.QuotableTheme
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.input.ImeAction
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -73,10 +80,28 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun ListQuotesScreen(mainUiState: MainUiState, modifier: Modifier = Modifier) {
-        when (mainUiState) {
-            is MainUiState.Success -> ListQuotes(mainUiState.quotes)
-            is MainUiState.Error -> ErrorText()
-            is MainUiState.Loading -> LoadingBar()
+        var searchText by remember { mutableStateOf("") }
+
+        Column {
+            OutlinedTextField(
+                value = searchText,
+                onValueChange = { searchText = it },
+                label = { Text("Search by Author") },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+
+            when (mainUiState) {
+                is MainUiState.Success -> ListQuotes(mainUiState.quotes.filter {
+                    it.author?.contains(searchText, ignoreCase = true) == true
+                })
+                is MainUiState.Error -> ErrorText()
+                is MainUiState.Loading -> LoadingBar()
+            }
         }
     }
 
@@ -116,14 +141,14 @@ class MainActivity : ComponentActivity() {
                 Text(
                     text = quotes.content ?: "Loading Content",
                     modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.bodyMedium.copy(
+                    style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
                     )
                 )
                 Text(
                     text = quotes.author ?: "Loading Author",
                     modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.bodyMedium.copy(
+                    style = MaterialTheme.typography.bodyLarge.copy(
                         fontStyle = FontStyle.Italic
                     )
                 )

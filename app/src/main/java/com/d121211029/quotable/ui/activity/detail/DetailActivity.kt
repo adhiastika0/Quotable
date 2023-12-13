@@ -22,10 +22,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.d121211029.quotable.R
 import com.d121211029.quotable.data.model.quote.Quote
 import com.d121211029.quotable.ui.theme.QuotableTheme
 
@@ -45,13 +47,35 @@ class DetailActivity : ComponentActivity() {
                 ) {
 
                 }
-                DetailScreen(modifier = Modifier)
+                DetailScreen()
             }
         }
     }
 
     @Composable
-    private fun DetailScreen(modifier: Modifier = Modifier) {
+    private fun DetailHeader(modifier: Modifier = Modifier){
+        Box(
+            modifier = modifier
+                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .background(Color.White)
+                .fillMaxWidth()
+        ){
+            Text(
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontStyle = FontStyle.Italic
+                ),
+                text = stringResource(R.string.detail),
+                modifier = Modifier.padding(16.dp),
+
+
+            )
+        }
+    }
+
+
+    @Composable
+    private fun DetailCard(modifier: Modifier = Modifier) {
         Card(
             modifier = modifier
                 .padding(vertical = 8.dp, horizontal = 16.dp)
@@ -66,7 +90,7 @@ class DetailActivity : ComponentActivity() {
                     Text(
                         text = selectedQuote?.content.toString(),
                         modifier = Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.bodyMedium.copy(
+                        style = MaterialTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.Bold,
                         )
 
@@ -74,7 +98,8 @@ class DetailActivity : ComponentActivity() {
                     Text(
                         text = selectedQuote?.author.toString(),
                         modifier = Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.bodyMedium.copy(
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontStyle = FontStyle.Italic
                         )
 
                     )
@@ -84,7 +109,7 @@ class DetailActivity : ComponentActivity() {
                         ){
                             selectedQuote?.tags?.let { tags ->
                                 if (tags.isNotEmpty()) {
-                                    tags.map { it -> Text(text = "Tags: ${it}") }
+                                    Text(text = "Tags: ${tags.joinToString(", ")}")
                                 } else {
                                     Text(text = "Tags: No Tags")
                                 }
@@ -96,6 +121,14 @@ class DetailActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    @Composable
+    private fun DetailScreen(modifier: Modifier = Modifier){
+        Column {
+            DetailHeader()
+            DetailCard()
         }
     }
 }
