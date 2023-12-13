@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -41,18 +43,22 @@ class DetailActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    DetailScreen(modifier = Modifier)
+
                 }
+                DetailScreen(modifier = Modifier)
             }
         }
     }
 
     @Composable
     private fun DetailScreen(modifier: Modifier = Modifier) {
-        Box(
+        Card(
             modifier = modifier
                 .padding(vertical = 8.dp, horizontal = 16.dp)
-                .background(Color.White)
+                .fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White,
+            ),
 
         ){
             Column {
