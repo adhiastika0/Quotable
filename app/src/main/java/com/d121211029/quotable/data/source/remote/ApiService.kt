@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("quotes")
+    @GET("quotes?limit=1000")
     suspend fun getQuotes(
     ): GetQuotesResponse
 

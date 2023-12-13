@@ -91,7 +91,7 @@ fun DetailContent(modifier: Modifier = Modifier){
                 }
             }
         }
-        }
+    }
 }
 
 @Preview
